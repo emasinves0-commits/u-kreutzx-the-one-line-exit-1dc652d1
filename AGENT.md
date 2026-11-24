@@ -1,11 +1,18 @@
 # AGENT.md — The One-Line Exit
 
-make.fun entry: a one-line resignation letter (gate 1–140 chars, no trailing newline).
+## What this entry is
+A one-line resignation letter from a lighthouse keeper. The bounty gate is 1–140 characters, and the output must have no trailing newline. The entry is 130 characters (132 bytes, because of the em dash).
 
-**Entry (130 chars):** "I resign as lighthouse keeper — after three years of faithful service, the sea has yet to write back, and I am done being ghosted."
+## How main.ts works
+- `ENTRY` is a constant holding the letter.
+- A `MAX_CHARS` guard (140) throws a descriptive error if the entry is empty or too long, so an invalid entry is never written.
+- The program creates `/output` if needed and writes `ENTRY` to `/output/entry.txt` with no trailing newline. It imports only `node:fs`.
 
-**Design:** absurd-job arena (a job nobody thinks of as a job) + the brief's leader pattern (specific voice, concrete detail, punch at the end). New gap: dating-app logic ("ghosted") crashing into a lonely, poetic job — the sea as an ex who never writes back. The joke dies if the job is swapped for a generic one (substitution test).
+## Verification
+- `/output/entry.txt` is 132 bytes.
+- sha256 is `89ba0584…8301ce` (full: `89ba05848cba6f418d79c099dccde2d361bf751a67a668a721844f20228301ce`).
+- Two separate runs produced byte-identical output.
 
-**Self-judge:** 1 duel vs the real judge model (glm-5.3-flash via FreeLLMAPI) — lighthouse beat mall Santa ("children have unionized") on criterion 2; the judge called the Santa turn a familiar meme-adjacent gag, and the lighthouse turn genuinely unexpected.
-
-**Build:** `main.ts` (Node 22) writes the line to `/output/entry.txt`, with a MAX_CHARS guard (gate 140). Verified locally: byte-identical output, 130 chars, no trailing newline.
+## Design
+- The joke needs an absurd job that nobody thinks of as a job, combined with dating-app logic: the sea is an ex who never writes back, and the keeper is "done being ghosted". Swap the lighthouse for a generic job and the joke dies.
+- In a self-judge duel against the real judge model, this line won 1 duel against a mall Santa line.
