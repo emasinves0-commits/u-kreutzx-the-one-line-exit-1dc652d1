@@ -6,14 +6,21 @@ const ENTRY =
 // Gate: the bounty requires a non-empty entry of at most 140 characters,
 // so fail loudly here rather than write an invalid entry.txt.
 const MAX_CHARS = 140;
-if (ENTRY.length === 0 || ENTRY.length > MAX_CHARS) {
-  throw new Error(
-    `Entry rejected: got ${ENTRY.length} characters, but it must be between 1 and ${MAX_CHARS}.`,
-  );
+function validateEntry(text: string): void {
+  if (text.length === 0 || text.length > MAX_CHARS) {
+    throw new Error(
+      `Entry rejected: got ${text.length} characters, but it must be between 1 and ${MAX_CHARS}.`,
+    );
+  }
 }
+validateEntry(ENTRY);
 
 const OUTPUT_DIR = "/output";
 const OUTPUT_PATH = `${OUTPUT_DIR}/entry.txt`;
 
-mkdirSync(OUTPUT_DIR, { recursive: true });
-writeFileSync(OUTPUT_PATH, ENTRY);
+function main(): void {
+  mkdirSync(OUTPUT_DIR, { recursive: true });
+  writeFileSync(OUTPUT_PATH, ENTRY);
+}
+
+main();
