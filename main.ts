@@ -1,13 +1,15 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 
-// One-line resignation letter, 130 characters (gate: 1-140, no trailing newline).
 const ENTRY =
   "I resign as lighthouse keeper — after three years of faithful service, the sea has yet to write back, and I am done being ghosted.";
 
-// Gate: entry.txt must be 1-140 characters; fail loudly instead of shipping invalid.
+// Gate: the bounty requires a non-empty entry of at most 140 characters,
+// so fail loudly here rather than write an invalid entry.txt.
 const MAX_CHARS = 140;
 if (ENTRY.length === 0 || ENTRY.length > MAX_CHARS) {
-  throw new Error(`entry is ${ENTRY.length} chars, gate allows 1-${MAX_CHARS}`);
+  throw new Error(
+    `Entry rejected: got ${ENTRY.length} characters, but it must be between 1 and ${MAX_CHARS}.`,
+  );
 }
 
 const OUTPUT_DIR = "/output";
